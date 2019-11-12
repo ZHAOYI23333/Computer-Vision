@@ -43,10 +43,7 @@ function nccList = imageIteration(img, template)
         end
     end
     yind = double(repmat((halfr+1:size(img, 1)-halfr)', 1, size(ncc,2)));
-    xind = double(repmat(halfc+1:size(img, 2)-halfc,size(ncc,1),1)); 
-    disp(size(yind))
-    disp(size(xind))
-    disp(size(ncc))
+    xind = double(repmat(halfc+1:size(img, 2)-halfc,size(ncc,1),1));
     nccList = cat(3,ncc,yind,xind); 
     nccList = reshape(nccList, [], 3);
     nccList = sortrows(nccList, 1, 'descend');
