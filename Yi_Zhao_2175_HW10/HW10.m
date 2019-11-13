@@ -11,6 +11,7 @@ right = double(imread('./data/right.png'));
 map = zeros(size(left));
 [r,c] = size(left);
 l = 11; % window size
+h = floor(l/2);
 
 for y = 1:r-l+1
     for x = 1:c-l+1
@@ -21,7 +22,7 @@ for y = 1:r-l+1
             ncclist(z) = calculateNCC(leftwindow, rightwindow);
         end
         [m, m_ind] = max(ncclist);
-        map(y, x) = m_ind;
+        map(y+h, x+h) = m_ind;
     end
 end
 figure;
@@ -69,6 +70,8 @@ function ncc = calculateNCC(origin, template)
     p_sigma = std(origin, 0, [1 2]);
     t_sigma = std(template, 0, [1 2]);
     arr = ((origin - p_mean).*(template - t_mean))./(p_sigma.*t_sigma);
+    % prevent inf value from dividing 0
+    arr(p_sigma * t_sigma == 0) = min(arr, [], 'all'); 
     ncc = sum(sum(arr, [1 2])/(size(template,1)*size(template,2)-1), 'all');
 end
 
